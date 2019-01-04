@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanlu.mapper.StudentMapper">
+    <resultMap id="resultMap" type="student">
+        <id property="id5" column="id"/>
+        <result property="snum5" column="snum"/>
+        <result property="name5" column="name"/>
+        <result property="age5" column="age"/>
+        <result property="intro5" column="intro"/>
+    </resultMap>
+    <select id="findAllStu" resultMap="resultMap">
+        SELECT * from student
+    </select>
+
+    <insert id="studentAdd" parameterType="student">
+        insert into student (snum,name,age,intro) VALUES (#{snum5},#{name5},#{age5},#{intro5})
+    </insert>
+
+    <delete id="studentDel" parameterType="String">
+        delete from student where id=#{id}
+    </delete>
+
+    <select id="studentFindById" parameterType="String" resultMap="resultMap">
+        select * from student where id=#{id}
+    </select>
+
+    <select id="studentFindByNameOrAge" resultMap="resultMap">
+        select * from student
+        <where>
+            <if test="name != null and name!='' ">
+                and name LIKE "%"#{name}"%"
+            </if>
+            <if test="age != null and age!='' ">
+                and age=#{age}
+            </if>
+        </where>
+
+    </select>
+
+    <update id="studentEdit" parameterType="student">
+        update student
+        <set>
+            <if test="snum5 != null and snum5!='' ">snum=#{snum5},</if>
+            <if test="name5 != null and name5!='' ">name=#{name5},</if>
+            <if test="age5 != null and age5!='' ">age=#{age5},</if>
+        </set> where id =#{id5}
+    </update>
+</mapper>
